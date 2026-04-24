@@ -7,7 +7,7 @@ terraform-docs 0.21.0
 # TODO - Re-visit Trivy usage https://nhsd-jira.digital.nhs.uk/browse/CCM-15549
 # trivy 0.69.2
 vale 3.14.1
-# python 3.13.2
+python 3.13.2
 
 
 # ==============================================================================

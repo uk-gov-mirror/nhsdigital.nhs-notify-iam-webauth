@@ -14,6 +14,8 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | The AWS Account ID (numeric) | `string` | n/a | yes |
 | <a name="input_component"></a> [component](#input\_component) | The variable encapsulating the name of this component | `string` | `"acct"` | no |
+| <a name="input_csoc_destination_account"></a> [csoc\_destination\_account](#input\_csoc\_destination\_account) | The AWS Account ID of the CSOC destination account for WAF log forwarding | `string` | `"000000000000"` | no |
+| <a name="input_csoc_log_forwarding"></a> [csoc\_log\_forwarding](#input\_csoc\_log\_forwarding) | Flag indicating whether WAF logs should be forwarded to the CSOC (this should be false for nonprod accounts until CSOC confirm they are ready to receive nonprod logs) | `bool` | `true` | no |
 | <a name="input_default_tags"></a> [default\_tags](#input\_default\_tags) | A map of default tags to apply to all taggable resources within the component | `map(string)` | `{}` | no |
 | <a name="input_enable_env_destroy_event_rule"></a> [enable\_env\_destroy\_event\_rule](#input\_enable\_env\_destroy\_event\_rule) | Enables the CloudWatch Event Rule for environment destruction failures | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The name of the tfscaffold environment | `string` | n/a | yes |
