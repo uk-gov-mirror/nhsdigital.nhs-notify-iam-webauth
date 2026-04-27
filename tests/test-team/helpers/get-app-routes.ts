@@ -15,7 +15,7 @@ export async function getAppRoutes(): Promise<string[]> {
 
     const route = dynamicStripped
       .replace(/^.*\/src\/app\//, '') // strip everything before app/
-      .replace(/\/page.tsx$/, ''); // strip trailing /page.tsx
+      .replace(/\/?page\.tsx$/, ''); // strip trailing page.tsx (with or without leading /)
 
     return route ?? '';
   });

@@ -16,8 +16,6 @@ type AccessibilityFixture = {
 const DISABLED_RULES = [
   /* We don't have control over NHS / CIS2 colours. */
   'color-contrast-enhanced',
-  /* Amplify login form renders a fieldset without a legend. */
-  'fieldset',
 ];
 
 const DEFAULT_REDIRECT_PATH = '/templates/message-templates';
