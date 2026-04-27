@@ -2,6 +2,8 @@ import { Locator, Page } from '@playwright/test';
 import { IamWebAuthBasePage } from '@pages/iam-webauth-base-page';
 
 export class IamWebAuthSignInPage extends IamWebAuthBasePage {
+  static readonly pathTemplate = '';
+
   public readonly emailInput: Locator;
 
   public readonly passwordInput: Locator;
@@ -47,11 +49,5 @@ export class IamWebAuthSignInPage extends IamWebAuthBasePage {
 
   async clickSubmitButton() {
     await this.submitButton.click();
-  }
-
-  async loadPage({ redirectPath }: { redirectPath: string }) {
-    await this.page.goto(`/auth?redirect=${encodeURIComponent(redirectPath)}`, {
-      waitUntil: 'load',
-    });
   }
 }

@@ -81,9 +81,9 @@ test.describe('SignIn', () => {
     }) => {
       const signInPage = new IamWebAuthSignInPage(page);
 
-      await signInPage.loadPage({
-        redirectPath: '/templates/create-and-submit-templates',
-      });
+      await signInPage
+        .setSearchParam('redirect', '/templates/create-and-submit-templates')
+        .loadPage();
 
       await signInPage.cognitoSignIn(
         users['client-not-configured']?.email as string
@@ -128,9 +128,9 @@ test.describe('SignIn', () => {
     }) => {
       const signInPage = new IamWebAuthSignInPage(page);
 
-      await signInPage.loadPage({
-        redirectPath: '/templates/create-and-submit-templates',
-      });
+      await signInPage
+        .setSearchParam('redirect', '/templates/create-and-submit-templates')
+        .loadPage();
 
       await signInPage.cognitoSignIn(
         users['client-fully-configured']?.email as string
@@ -181,9 +181,9 @@ test.describe('SignIn', () => {
     test('should not log user in, when email is invalid', async ({ page }) => {
       const signInPage = new IamWebAuthSignInPage(page);
 
-      await signInPage.loadPage({
-        redirectPath: '/templates/create-and-submit-templates',
-      });
+      await signInPage
+        .setSearchParam('redirect', '/templates/create-and-submit-templates')
+        .loadPage();
 
       await signInPage.emailInput.fill('this-should-not-work@nhs.net');
 
@@ -199,9 +199,9 @@ test.describe('SignIn', () => {
     }) => {
       const signInPage = new IamWebAuthSignInPage(page);
 
-      await signInPage.loadPage({
-        redirectPath: '/templates/create-and-submit-templates',
-      });
+      await signInPage
+        .setSearchParam('redirect', '/templates/create-and-submit-templates')
+        .loadPage();
 
       await signInPage.emailInput.fill(
         users['client-fully-configured']?.email as string
@@ -221,9 +221,9 @@ test.describe('SignIn', () => {
     }) => {
       const signInPage = new IamWebAuthSignInPage(page);
 
-      await signInPage.loadPage({
-        redirectPath: '/templates/create-and-submit-templates',
-      });
+      await signInPage
+        .setSearchParam('redirect', '/templates/create-and-submit-templates')
+        .loadPage();
 
       await signInPage.emailInput.fill(users['no-client']?.email as string);
 
