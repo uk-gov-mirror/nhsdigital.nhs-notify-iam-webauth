@@ -2,7 +2,6 @@
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.7.1",
     "@aws-amplify/auth": "^6.11.3",
-    "@aws-amplify/client-config": "^1.7.0",
     "@aws-amplify/plugin-types": "^1.11.2",
     "@aws-amplify/ui-react": "^6.9.4",
     "@nhs-notify-iam-webauth/utils-logger": "^0.0.1",
