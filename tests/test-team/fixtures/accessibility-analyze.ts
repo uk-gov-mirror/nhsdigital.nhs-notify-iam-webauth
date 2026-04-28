@@ -22,8 +22,6 @@ const DEFAULT_REDIRECT_PATH = '/templates/message-templates';
 
 const makeAxeBuilder = (page: Page) =>
   new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag2aaa']);
-// .disableRules(DISABLED_RULES);
-// .options({ rules: { 'color-contrast-enhanced': {} } });
 
 export const test = base.extend<AccessibilityFixture>({
   analyze: async ({ page }, use) => {
