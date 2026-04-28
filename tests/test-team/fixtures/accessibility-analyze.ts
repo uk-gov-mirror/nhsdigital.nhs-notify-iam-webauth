@@ -45,7 +45,7 @@ export const test = base.extend<AccessibilityFixture>({
           const warning = JSON.stringify(violation, null, 2);
 
           // eslint-disable-next-line no-console
-          console.warn(`WARNING: ${warning}`);
+          console.warn(`WARNING on ${page.url()}: ${warning}`);
 
           test.info().annotations.push({
             type: 'Warning',
