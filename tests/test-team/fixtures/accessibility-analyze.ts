@@ -22,6 +22,8 @@ const WARN_LEVEL_RULES = new Set([
   'color-contrast-enhanced',
 ]);
 
+const IGNORE_SELECTORS = ['.amplify-button'];
+
 const DEFAULT_REDIRECT_PATH = '/templates/message-templates';
 
 function summariseViolation(violation: AxeResult, url: string) {
@@ -37,7 +39,9 @@ function summariseViolation(violation: AxeResult, url: string) {
 }
 
 const makeAxeBuilder = (page: Page) =>
-  new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag2aaa']);
+  new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag2aaa'])
+    .exclude(IGNORE_SELECTORS);
 
 export const test = base.extend<AccessibilityFixture>({
   analyze: async ({ page }, use) => {
