@@ -27,9 +27,9 @@ test.describe('SignOut', () => {
   test('should sign user out', async ({ baseURL, page }) => {
     const signInPage = new IamWebAuthSignInPage(page);
 
-    await signInPage.loadPage({
-      redirectPath: '/templates/create-and-submit-templates',
-    });
+    await signInPage
+      .setSearchParam('redirect', '/templates/create-and-submit-templates')
+      .loadPage();
 
     await signInPage.cognitoSignIn(user.email);
 
@@ -49,9 +49,9 @@ test.describe('SignOut', () => {
       expect(Object.keys(cookiesPostSignOut)).toHaveLength(0);
     }).toPass();
 
-    await signInPage.loadPage({
-      redirectPath: '/templates/create-and-submit-templates',
-    });
+    await signInPage
+      .setSearchParam('redirect', '/templates/create-and-submit-templates')
+      .loadPage();
 
     await expect(signInPage.emailInput).toBeVisible();
   });

@@ -3,6 +3,7 @@ import { TOTP } from "totp-generator";
 
 // This script is for generating an OTP for manual CIS2 login in a Static Environment
 // Do not use it for test automation or in sandbox environments!
+// You must be authenticated with the "NHS Notify Web UI Dev" account to access the credentials
 (async function main(){
   const { Parameter } = await new SSMClient().send(new GetParameterCommand({
     Name: '/test/cis2-int/credentials',

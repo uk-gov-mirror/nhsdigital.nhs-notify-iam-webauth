@@ -1,0 +1,85 @@
+import { Page, test as base, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+import { IamWebAuthBasePage } from '@pages/iam-webauth-base-page';
+
+type Analyze = <T extends IamWebAuthBasePage>(
+  page: T,
+  opts?: {
+    beforeAnalyze?: (page: T) => Promise<void>;
+  }
+) => Promise<void>;
+
+type AccessibilityFixture = {
+  analyze: Analyze;
+};
+
+type AxeResult = Awaited<
+  ReturnType<typeof AxeBuilder.prototype.analyze>
+>['violations'][number];
+
+const WARN_LEVEL_RULES = new Set([
+  /* We don't have control over NHS / CIS2 colours. */
+  'color-contrast-enhanced',
+]);
+
+const IGNORE_SELECTORS = ['.amplify-button'];
+
+const DEFAULT_REDIRECT_PATH = '/templates/message-templates';
+
+function summariseViolation(violation: AxeResult, url: string) {
+  return {
+    url,
+    id: violation.id,
+    nodes: violation.nodes.map((n) => ({
+      failureSummary: n.failureSummary,
+      html: n.html,
+      target: n.target,
+    })),
+  };
+}
+
+const makeAxeBuilder = (page: Page) =>
+  new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag2aaa'])
+    .exclude(IGNORE_SELECTORS);
+
+export const test = base.extend<AccessibilityFixture>({
+  analyze: async ({ page }, use) => {
+    const analyze: Analyze = async (pageUnderTest, opts) => {
+      const { beforeAnalyze } = opts ?? {};
+
+      pageUnderTest.setSearchParam('redirect', DEFAULT_REDIRECT_PATH);
+
+      await pageUnderTest.loadPage();
+
+      if (beforeAnalyze) {
+        await beforeAnalyze(pageUnderTest);
+      }
+
+      await expect(page).toHaveURL(pageUnderTest.getUrl());
+
+      const results = await makeAxeBuilder(page).analyze();
+
+      const failures = results.violations.filter((violation) => {
+        if (WARN_LEVEL_RULES.has(violation.id)) {
+          const summary = summariseViolation(violation, page.url());
+          // eslint-disable-next-line no-console
+          console.warn(`WARNING: ${JSON.stringify(summary, null, 2)}`);
+
+          test.info().annotations.push({
+            type: 'Warning',
+            description: JSON.stringify(violation, null, 2),
+          });
+
+          return false;
+        }
+        return true;
+      });
+
+      expect(failures).toEqual([]);
+    };
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(analyze);
+  },
+});
