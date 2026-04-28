@@ -13,12 +13,28 @@ type AccessibilityFixture = {
   analyze: Analyze;
 };
 
+type AxeResult = Awaited<
+  ReturnType<typeof AxeBuilder.prototype.analyze>
+>['violations'][number];
+
 const WARN_LEVEL_RULES = new Set([
   /* We don't have control over NHS / CIS2 colours. */
   'color-contrast-enhanced',
 ]);
 
 const DEFAULT_REDIRECT_PATH = '/templates/message-templates';
+
+function summariseViolation(violation: AxeResult, url: string) {
+  return {
+    url,
+    id: violation.id,
+    nodes: violation.nodes.map((n) => ({
+      failureSummary: n.failureSummary,
+      html: n.html,
+      target: n.target,
+    })),
+  };
+}
 
 const makeAxeBuilder = (page: Page) =>
   new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag2aaa']);
@@ -42,14 +58,13 @@ export const test = base.extend<AccessibilityFixture>({
 
       const failures = results.violations.filter((violation) => {
         if (WARN_LEVEL_RULES.has(violation.id)) {
-          const warning = JSON.stringify(violation, null, 2);
-
+          const summary = summariseViolation(violation, page.url());
           // eslint-disable-next-line no-console
-          console.warn(`WARNING on ${page.url()}: ${warning}`);
+          console.warn(`WARNING: ${JSON.stringify(summary, null, 2)}`);
 
           test.info().annotations.push({
             type: 'Warning',
-            description: warning,
+            description: JSON.stringify(violation, null, 2),
           });
 
           return false;
