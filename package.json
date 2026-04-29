@@ -40,7 +40,10 @@
     "nhsuk-react-components": {
       "nhsuk-frontend": "^10.3.1"
     },
-    "underscore@1": "^1.13.8"
+    "underscore@1": "^1.13.8",
+    "brace-expansion@5": "^5.0.5",
+    "postcss": "^8.5.10",
+    "yaml": "^1.10.3"
   },
   "private": true,
   "scripts": {
